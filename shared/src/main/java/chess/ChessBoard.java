@@ -28,6 +28,7 @@ public class ChessBoard {
      * @param position The position to get the piece from
      * @return Either the piece at the position, or null if no piece is at that
      * position
+     * indexing in the two dimentional array,
      */
     public ChessPiece getPiece(ChessPosition position) {
         throw new RuntimeException("Not implemented");
@@ -36,6 +37,13 @@ public class ChessBoard {
     /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
+     *
+     * two rows of blacks and two rows of whites in a specific spot.
+     * use a two dementional array as instance variable of pieces
+     * when you call addPiece, you are passed position as a row and a column
+     * everytime add piece is called, put the piece in the row
+     *
+     * there are 32 pieces and you have to set all 32 pieces in board
      */
     public void resetBoard() {
         throw new RuntimeException("Not implemented");
