@@ -20,7 +20,7 @@ public class ChessMove {
 
     /**
      * chessMove called by pieceMoves???
-     * @return ChessPosition of starting lcheocation
+     * @return ChessPosition of starting location
      */
     public ChessPosition getStartPosition() {
         return startPosition;

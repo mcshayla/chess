@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -60,6 +61,43 @@ public class ChessPiece {
      * probably used a switch statement.
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        ChessPiece piece = board.getPiece(myPosition);
+        PieceType pieceType = piece.getPieceType();
+
+        MovementRules movementRules = new MovementRules();
+
+        if (pieceType == ChessPiece.PieceType.BISHOP) {
+            return movementRules.bishopRules(pieceType, myPosition);
+        }
+        return null;
     }
+//        switch (pieceType) {
+//            case KING -> {
+//
+//            }
+//
+//            case PAWN -> {
+//
+//            }
+//
+//            case ROOK -> {
+//
+//            }
+//
+//            case QUEEN -> {
+//
+//            }
+//
+//            case BISHOP -> {
+//                return movementRules.bishopRules(pieceType, myPosition);
+//            }
+//
+//
+//            case KNIGHT -> {
+//
+//            }
+//
+//        }
+//
+//    }
 }
