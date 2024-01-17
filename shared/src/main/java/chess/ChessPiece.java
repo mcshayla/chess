@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -59,20 +60,71 @@ public class ChessPiece {
      *
      * create a classmovement for each piece.
      * probably used a switch statement.
+     *
+     *
      */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return pieceColor == that.pieceColor && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type);
+    }
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
         PieceType pieceType = piece.getPieceType();
 
-        MovementRules movementRules = new MovementRules();
 
-        if (pieceType == ChessPiece.PieceType.BISHOP) {
-            return movementRules.bishopRules(pieceType, myPosition);
+        Collection<ChessMove> chessMoves = new ArrayList<>();
+
+//        if (pieceType == ChessPiece.PieceType.BISHOP) {
+//            ArrayList<ChessPosition> coordinates = movementRules.bishopRules(myPosition);
+//
+//
+//            for (ChessPosition coordinate : coordinates) {
+//                chessMoves.add(new ChessMove(myPosition, coordinate, null));
+//
+//            }
+//            return chessMoves;
+//        }
+//        return null;
+//    }
+        switch (pieceType) {
+
+            case BISHOP -> {
+                MovementRules movementRules = new MovementRules();
+                ArrayList<ChessPosition> coordinates = movementRules.bishopRules(myPosition);
+//
+//
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+
+                }
+                return chessMoves;
+
+            }
+            case ROOK -> {
+                MoveRook moveRook = new MoveRook();
+                ArrayList<ChessPosition> coordinates = moveRook.rookRules(myPosition);
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+
+                }
+                return chessMoves;
+            }
         }
         return null;
-    }
-//        switch (pieceType) {
+        }
 //            case KING -> {
+
+
+
 //
 //            }
 //
