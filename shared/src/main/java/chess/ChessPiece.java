@@ -81,6 +81,7 @@ public class ChessPiece {
         PieceType pieceType = piece.getPieceType();
 
 
+
         Collection<ChessMove> chessMoves = new ArrayList<>();
 
 //        if (pieceType == ChessPiece.PieceType.BISHOP) {
@@ -99,7 +100,7 @@ public class ChessPiece {
 
             case BISHOP -> {
                 MovementRules movementRules = new MovementRules();
-                ArrayList<ChessPosition> coordinates = movementRules.bishopRules(myPosition);
+                ArrayList<ChessPosition> coordinates = movementRules.bishopRules(board, piece, myPosition);
 //
 //
                 for (ChessPosition coordinate : coordinates) {

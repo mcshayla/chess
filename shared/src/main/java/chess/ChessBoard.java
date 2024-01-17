@@ -68,6 +68,7 @@ public class ChessBoard {
      * there are 32 pieces and you have to set all 32 pieces in board
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+
+
     }
 }
