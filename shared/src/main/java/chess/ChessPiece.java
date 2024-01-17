@@ -118,6 +118,38 @@ public class ChessPiece {
                 }
                 return chessMoves;
             }
+            case QUEEN -> {
+                MoveQueen moveQueen = new MoveQueen();
+                ArrayList<ChessPosition> coordinates = moveQueen.queenRules(myPosition);
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                }
+                return chessMoves;
+            }
+            case KING -> {
+                MoveKing moveKing = new MoveKing();
+                ArrayList<ChessPosition> coordinates = moveKing.kingRules(myPosition);
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                }
+                return chessMoves;
+            }
+            case KNIGHT -> {
+                MoveKnight moveKing = new MoveKnight();
+                ArrayList<ChessPosition> coordinates = moveKing.knightRules(myPosition);
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                }
+                return chessMoves;
+            }
+            case PAWN -> {
+                MovePawn movePawn = new MovePawn();
+                ArrayList<ChessPosition> coordinates = movePawn.pawnRules(myPosition);
+                for (ChessPosition coordinate : coordinates) {
+                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                }
+                return chessMoves;
+            }
         }
         return null;
         }
