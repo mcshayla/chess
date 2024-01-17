@@ -9,14 +9,45 @@ public class MovePawn {
         ArrayList<ChessPosition> moves = new ArrayList<>();
         ChessGame.TeamColor color = chessPiece.getTeamColor();
 
-        if (row == 2) {
-            ChessPosition coordinate = new ChessPosition(row+1, col);
-            moves.add(coordinate);
-            coordinate = new ChessPosition(row+2, col);
-            moves.add(coordinate);
+
+        if (color == ChessGame.TeamColor.WHITE) {
+            ChessPosition coordinate = new ChessPosition(row + 1, col);
+            if (chessBoard.getPiece(coordinate) == null) {
+                moves.add(coordinate);
+                if (row == 2) {
+                    coordinate = new ChessPosition(row + 2, col);
+                    if (chessBoard.getPiece(coordinate) == null) {
+                        moves.add(coordinate);
+                    }
+                }
+            }
+            coordinate = new ChessPosition(row + 1, col+1);
+            if (chessBoard.getPiece(coordinate) != null && chessBoard.getPiece(coordinate).getTeamColor() != color ) {
+                moves.add(coordinate);
+            }
+            coordinate = new ChessPosition(row + 1, col-1);
+            if (chessBoard.getPiece(coordinate) != null && chessBoard.getPiece(coordinate).getTeamColor() != color) {
+                    moves.add(coordinate);
+            }
         } else {
-            ChessPosition coordinate = new ChessPosition(row+1, col);
-            moves.add(coordinate);
+            ChessPosition coordinate = new ChessPosition(row - 1, col);
+            if (chessBoard.getPiece(coordinate) == null) {
+                moves.add(coordinate);
+                if (row == 7) {
+                    coordinate = new ChessPosition(row - 2, col);
+                    if (chessBoard.getPiece(coordinate) == null) {
+                        moves.add(coordinate);
+                    }
+                }
+            }
+            coordinate = new ChessPosition(row - 1, col+1);
+            if (chessBoard.getPiece(coordinate) != null && chessBoard.getPiece(coordinate).getTeamColor() != color ) {
+                moves.add(coordinate);
+            }
+            coordinate = new ChessPosition(row - 1, col-1);
+            if (chessBoard.getPiece(coordinate) != null && chessBoard.getPiece(coordinate).getTeamColor() != color) {
+                moves.add(coordinate);
+            }
         }
         return moves;
     }
