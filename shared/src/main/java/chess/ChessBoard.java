@@ -11,8 +11,8 @@ import java.util.Objects;
  */
 public class ChessBoard {
 
-    int rows = 8;
-    int cols = 8;
+    int rows = 9;
+    int cols = 9;
     private ChessPiece[][] board = new ChessPiece[rows][cols];
     public ChessBoard() {
 

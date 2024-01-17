@@ -112,7 +112,7 @@ public class ChessPiece {
             }
             case ROOK -> {
                 MoveRook moveRook = new MoveRook();
-                ArrayList<ChessPosition> coordinates = moveRook.rookRules(myPosition);
+                ArrayList<ChessPosition> coordinates = moveRook.rookRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     chessMoves.add(new ChessMove(myPosition, coordinate, null));
 
@@ -121,7 +121,7 @@ public class ChessPiece {
             }
             case QUEEN -> {
                 MoveQueen moveQueen = new MoveQueen();
-                ArrayList<ChessPosition> coordinates = moveQueen.queenRules(myPosition);
+                ArrayList<ChessPosition> coordinates = moveQueen.queenRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     chessMoves.add(new ChessMove(myPosition, coordinate, null));
                 }
@@ -145,7 +145,7 @@ public class ChessPiece {
             }
             case PAWN -> {
                 MovePawn movePawn = new MovePawn();
-                ArrayList<ChessPosition> coordinates = movePawn.pawnRules(myPosition);
+                ArrayList<ChessPosition> coordinates = movePawn.pawnRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     chessMoves.add(new ChessMove(myPosition, coordinate, null));
                 }
