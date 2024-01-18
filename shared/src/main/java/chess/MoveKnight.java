@@ -1,79 +1,31 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoveKnight {
-    public ArrayList<ChessPosition> knightRules(ChessPosition position) {
+    public ArrayList<ChessPosition> knightRules(ChessBoard chessBoard, ChessPiece chessPiece, ChessPosition position) {
         int row = position.getRow();
         int col = position.getColumn();
         ArrayList<ChessPosition> moves = new ArrayList<>();
+        ChessGame.TeamColor color = chessPiece.getTeamColor();
 
-        while (col+1 <= 8) { //right
-            ChessPosition coordinate = new ChessPosition(row, col+1);
-            moves.add(coordinate);
-            col++;
 
+        List<ChessPosition> coordinates = new ArrayList<>();
+        coordinates.add(new ChessPosition(row+2, col+1));
+        coordinates.add(new ChessPosition(row+2, col-1));
+        coordinates.add(new ChessPosition(row-2, col-1));
+        coordinates.add(new ChessPosition(row-2, col+1));
+        coordinates.add(new ChessPosition(row+1, col+2));
+        coordinates.add(new ChessPosition(row-1, col+2));
+        coordinates.add(new ChessPosition(row+1, col-2));
+        coordinates.add(new ChessPosition(row-1, col-2));
+
+        for (ChessPosition coordinate: coordinates) {
+            if (coordinate.getRow() <=8 && coordinate.getRow() >=1 && coordinate.getColumn() >=1 && coordinate.getColumn() <=8 && (chessBoard.getPiece(coordinate) == null || color != chessBoard.getPiece(coordinate).getTeamColor())) {
+                moves.add(coordinate);
+            }
         }
-        row = position.getRow();
-        col = position.getColumn();
-        while (row-1 >= 1) { //down
-            ChessPosition coordinate = new ChessPosition(row-1, col);
-            moves.add(coordinate);
-            row--;
-        }
-        row = position.getRow();
-        col = position.getColumn();
-        while (col - 1 >= 1) { //left
-            ChessPosition coordinate = new ChessPosition(row, col-1);
-            moves.add(coordinate);
-            col--;
-        }
-
-        row = position.getRow();
-        col = position.getColumn();
-
-        while (row+1 <= 8) { //up
-            ChessPosition coordinate = new ChessPosition(row+1, col);
-            moves.add(coordinate);
-            row++;
-        }
-        row = position.getRow();
-        col = position.getColumn();
-        while (row+1 <= 8 && col+1 <= 8) { //up and right
-            ChessPosition coordinate = new ChessPosition(row+1, col+1);
-            moves.add(coordinate);
-            row++;
-            col++;
-
-        }
-        row = position.getRow();
-        col = position.getColumn();
-        while (row-1 >= 1 && col + 1 <= 8) { //down and right
-            ChessPosition coordinate = new ChessPosition(row-1, col+1);
-            moves.add(coordinate);
-            row--;
-            col++;
-        }
-        row = position.getRow();
-        col = position.getColumn();
-        while (row-1 >= 1 && col - 1 >= 1) { //down and left
-            ChessPosition coordinate = new ChessPosition(row-1, col-1);
-            moves.add(coordinate);
-            row--;
-            col--;
-        }
-
-        row = position.getRow();
-        col = position.getColumn();
-
-        while (row+1 <= 8 && col - 1 >= 1) { //up and left
-            ChessPosition coordinate = new ChessPosition(row+1, col-1);
-            moves.add(coordinate);
-            row++;
-            col--;
-        }
-
-
 
         return moves;
     }

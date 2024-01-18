@@ -137,7 +137,7 @@ public class ChessPiece {
             }
             case KNIGHT -> {
                 MoveKnight moveKing = new MoveKnight();
-                ArrayList<ChessPosition> coordinates = moveKing.knightRules(myPosition);
+                ArrayList<ChessPosition> coordinates = moveKing.knightRules(board, piece,myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     chessMoves.add(new ChessMove(myPosition, coordinate, null));
                 }
