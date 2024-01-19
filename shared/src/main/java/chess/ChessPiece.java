@@ -76,26 +76,24 @@ public class ChessPiece {
     public int hashCode() {
         return Objects.hash(pieceColor, type);
     }
+
+    @Override
+    public String toString() {
+        return "ChessPiece{" +
+                "pieceColor=" + pieceColor +
+                ", type=" + type +
+                '}';
+    }
+
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
         PieceType pieceType = piece.getPieceType();
+        PieceType promType = piece.type;
 
 
 
         Collection<ChessMove> chessMoves = new ArrayList<>();
 
-//        if (pieceType == ChessPiece.PieceType.BISHOP) {
-//            ArrayList<ChessPosition> coordinates = movementRules.bishopRules(myPosition);
-//
-//
-//            for (ChessPosition coordinate : coordinates) {
-//                chessMoves.add(new ChessMove(myPosition, coordinate, null));
-//
-//            }
-//            return chessMoves;
-//        }
-//        return null;
-//    }
         switch (pieceType) {
 
             case BISHOP -> {
@@ -129,7 +127,7 @@ public class ChessPiece {
             }
             case KING -> {
                 MoveKing moveKing = new MoveKing();
-                ArrayList<ChessPosition> coordinates = moveKing.kingRules(myPosition);
+                ArrayList<ChessPosition> coordinates = moveKing.kingRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     chessMoves.add(new ChessMove(myPosition, coordinate, null));
                 }
@@ -147,42 +145,23 @@ public class ChessPiece {
                 MovePawn movePawn = new MovePawn();
                 ArrayList<ChessPosition> coordinates = movePawn.pawnRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
-                    chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                    if (piece.getTeamColor() == ChessGame.TeamColor.WHITE && coordinate.getRow() == 8) {
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.ROOK));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.QUEEN));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.BISHOP));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.KNIGHT));
+                    } else if (piece.getTeamColor() == ChessGame.TeamColor.BLACK && coordinate.getRow() == 1) {
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.ROOK));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.QUEEN));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.BISHOP));
+                        chessMoves.add(new ChessMove(myPosition, coordinate, PieceType.KNIGHT));
+                    } else {
+                        chessMoves.add(new ChessMove(myPosition, coordinate, null));
+                    }
                 }
                 return chessMoves;
             }
         }
         return null;
         }
-//            case KING -> {
-
-
-
-//
-//            }
-//
-//            case PAWN -> {
-//
-//            }
-//
-//            case ROOK -> {
-//
-//            }
-//
-//            case QUEEN -> {
-//
-//            }
-//
-//            case BISHOP -> {
-//                return movementRules.bishopRules(pieceType, myPosition);
-//            }
-//
-//
-//            case KNIGHT -> {
-//
-//            }
-//
-//        }
-//
-//    }
 }

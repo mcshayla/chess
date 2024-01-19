@@ -3,6 +3,9 @@ package chess;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static chess.ChessPiece.*;
+import static chess.ChessPiece.PieceType.*;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -46,14 +49,23 @@ public class ChessBoard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChessBoard that = (ChessBoard) o;
-        return rows == that.rows && cols == that.cols && Arrays.equals(board, that.board);
+        return rows == that.rows && cols == that.cols && Arrays.deepEquals(board, that.board);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(rows, cols);
-        result = 31 * result + Arrays.hashCode(board);
+        result = 31 * result + Arrays.deepHashCode(board);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ChessBoard{" +
+                "rows=" + rows +
+                ", cols=" + cols +
+                ", board=" + Arrays.deepToString(board) +
+                '}';
     }
 
     /**
@@ -68,7 +80,37 @@ public class ChessBoard {
      * there are 32 pieces and you have to set all 32 pieces in board
      */
     public void resetBoard() {
-
-
+        addPiece(new ChessPosition(1,1), new ChessPiece(ChessGame.TeamColor.WHITE, ROOK));
+        addPiece(new ChessPosition(1,2), new ChessPiece(ChessGame.TeamColor.WHITE, KNIGHT));
+        addPiece(new ChessPosition(1,3), new ChessPiece(ChessGame.TeamColor.WHITE, BISHOP));
+        addPiece(new ChessPosition(1,4), new ChessPiece(ChessGame.TeamColor.WHITE, QUEEN));
+        addPiece(new ChessPosition(1,5), new ChessPiece(ChessGame.TeamColor.WHITE, KING));
+        addPiece(new ChessPosition(1,6), new ChessPiece(ChessGame.TeamColor.WHITE, BISHOP));
+        addPiece(new ChessPosition(1,7), new ChessPiece(ChessGame.TeamColor.WHITE, KNIGHT));
+        addPiece(new ChessPosition(1,8), new ChessPiece(ChessGame.TeamColor.WHITE, ROOK));
+        addPiece(new ChessPosition(2,1), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,2), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,3), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,4), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,5), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,6), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,7), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(2,8), new ChessPiece(ChessGame.TeamColor.WHITE, PAWN));
+        addPiece(new ChessPosition(8,1), new ChessPiece(ChessGame.TeamColor.BLACK, ROOK));
+        addPiece(new ChessPosition(8,2), new ChessPiece(ChessGame.TeamColor.BLACK, KNIGHT));
+        addPiece(new ChessPosition(8,3), new ChessPiece(ChessGame.TeamColor.BLACK, BISHOP));
+        addPiece(new ChessPosition(8,4), new ChessPiece(ChessGame.TeamColor.BLACK, QUEEN));
+        addPiece(new ChessPosition(8,5), new ChessPiece(ChessGame.TeamColor.BLACK, KING));
+        addPiece(new ChessPosition(8,6), new ChessPiece(ChessGame.TeamColor.BLACK, BISHOP));
+        addPiece(new ChessPosition(8,7), new ChessPiece(ChessGame.TeamColor.BLACK, KNIGHT));
+        addPiece(new ChessPosition(8,8), new ChessPiece(ChessGame.TeamColor.BLACK, ROOK));
+        addPiece(new ChessPosition(7,1), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,2), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,3), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,4), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,5), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,6), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,7), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
+        addPiece(new ChessPosition(7,8), new ChessPiece(ChessGame.TeamColor.BLACK, PAWN));
     }
 }
