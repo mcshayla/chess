@@ -14,8 +14,8 @@ import static chess.ChessPiece.PieceType.*;
  */
 public class ChessBoard {
 
-    int rows = 9;
-    int cols = 9;
+    int rows = 10;
+    int cols = 10;
     private ChessPiece[][] board = new ChessPiece[rows][cols];
     public ChessBoard() {
 
