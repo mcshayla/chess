@@ -10,9 +10,15 @@ import java.util.Collection;
  */
 public class ChessGame {
 
-    public ChessGame() {
+    private boolean isGameOver;
 
+    public ChessGame() {
+        isGameOver = false;
     }
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
 
     /**
      * @return Which team's turn it is
