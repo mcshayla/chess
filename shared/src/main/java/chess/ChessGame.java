@@ -66,20 +66,20 @@ public class ChessGame {
         }
 
         Collection<ChessMove> moves = new ArrayList<>();
-//        Collection<ChessMove> valMoves = new ArrayList<>();
+        Collection<ChessMove> valMoves = new ArrayList<>();
 
 
         moves.addAll(start.pieceMoves(chessboard, new ChessPosition(startPosition.getRow(), startPosition.getColumn())));
 
-//        for (ChessMove move: moves) {
-//            ChessBoard copiedboard = chessboard;
-//            movePiece(move, copiedboard);
-//            if(!isInCheck(getTeamTurn())){
-//                valMoves.add(move);
-//            }
-//        }
+        for (ChessMove move: moves) {
+            ChessBoard copiedboard = new ChessBoard(chessboard);
+            movePiece(move, copiedboard);
+            if(!isInCheck(getTeamTurn())){
+                valMoves.add(move);
+            }
+        }
 
-        return moves;
+        return valMoves;
 
     }
 
@@ -87,9 +87,14 @@ public class ChessGame {
         ChessPosition piecePosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
         ChessPiece piece = board.getPiece(piecePosition);
+        ChessPiece promo = new ChessPiece (piece.getTeamColor(), move.getPromotionPiece());
 
         board.addPiece(piecePosition, null);
-        board.addPiece(endPosition, piece);
+        if (promo != null) {
+            board.addPiece(endPosition, promo);
+        } else {
+            board.addPiece(endPosition, piece);
+        }
 
     }
 
