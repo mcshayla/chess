@@ -70,8 +70,31 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+
+        ChessPosition piecePosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        ChessPiece piece = chessboard.getPiece(piecePosition);
+        TeamColor color = piece.getTeamColor();
+
+        if (color == getTeamTurn()) {
+            chessboard.addPiece(piecePosition, null);
+            chessboard.addPiece(endPosition, piece);
+
+            if (color == TeamColor.WHITE) {
+                setTeamTurn(TeamColor.BLACK);
+            } else {
+                setTeamTurn(TeamColor.WHITE);
+            }
+
+        } else {
+            throw new InvalidMoveException("Not your turn");
+        }
+
+
     }
+
+
+
 
     /**
      * Determines if the given team is in check
@@ -79,20 +102,20 @@ public class ChessGame {
      * @param teamColor which team to check for check
      * @return True if the specified team is in check
      */
-    public boolean isInCheck(TeamColor teamColor) {
 
-        ChessPosition kingPosition = null;
-        outerLoop:
+    private ChessPosition findKing(ChessBoard chessBoard, TeamColor teamColor) {
         for (int i = 1; i <=8; ++i) {
             for (int j = 1; j <= 8; ++j) {
                 ChessPiece testPiece = chessboard.getPiece(new ChessPosition(i, j));
                 if (testPiece != null && testPiece.getPieceType() == ChessPiece.PieceType.KING && testPiece.getTeamColor() == teamColor){
-                    kingPosition = new ChessPosition(i,j);
-                    break outerLoop;
+                    return new ChessPosition(i,j);
                 }
             }
         }
-
+        return null;
+    }
+    public boolean isInCheck(TeamColor teamColor) {
+        ChessPosition kingPosition = findKing(chessboard, teamColor);
         Collection<ChessMove> otherPlayers = new ArrayList<>();
         for (int i = 1; i <=8; ++i) {
             for (int j = 1; j <= 8; ++j) {
@@ -102,17 +125,12 @@ public class ChessGame {
                 }
             }
         }
-
         for (ChessMove move: otherPlayers) {
             if (move.getEndPosition().equals(kingPosition)){
                 return true;
             }
         }
-
         return false;
-
-
-
 
     }
 
@@ -145,7 +163,14 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+
+        ChessBoard copied = chessboard;
+        if (isInCheck(teamColor)) {
+            return true;
+        }
+
+        return false;
+
     }
 
     /**
