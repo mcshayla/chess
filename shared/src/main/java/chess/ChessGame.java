@@ -166,11 +166,12 @@ public class ChessGame {
 //
 //            }
 //        }
-        if (valMoves.isEmpty()) {
-            return null;
-        } else {
-            return valMoves;
-        }
+//        if (valMoves.isEmpty()) {
+//            return null;
+//        } else {
+//            return valMoves;
+//        }
+        return valMoves;
 
     }
 
@@ -271,7 +272,7 @@ public class ChessGame {
     }
 
 
-    private Collection<ChessMove> Players(ChessBoard board, TeamColor teamcolor) { /////change chessboard to board?
+    private Collection<ChessMove> Players(ChessBoard board, TeamColor teamcolor) {
         Collection<ChessMove> otherPlayers = new ArrayList<>();
         for (int i = 1; i <=8; ++i) {
             for (int j = 1; j <= 8; ++j) {
