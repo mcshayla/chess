@@ -381,7 +381,7 @@ public class ChessGame {
             }
             stale = true;
             for (ChessMove player: players) {
-                if (validMoves(player.getStartPosition()) != null) {
+                if (!validMoves(player.getStartPosition()).isEmpty()) {
                     stale = false;
                     break;
                 }
