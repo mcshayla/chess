@@ -24,8 +24,11 @@ public class RegisterHandler implements Route {
         System.out.println(registerResponse);
         if (registerResponse.message() == null) { ////look at specific cases and add if statements
             response.status(200);
+        } else if (registerResponse.message().equals("Error: already taken")) {
+            response.status(403);
+
         } else {
-            response.status(400);
+            response.status(500);
         }
         return new Gson().toJson(registerResponse);
 

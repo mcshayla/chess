@@ -27,10 +27,14 @@ public class RegisterService {
 
         try {
 
+            if (user.username() == null) {
+                return new RegisterResponse(null, null, "Error: bad request");
+            }
+
             UserData user1 = userInstance.getUser(user.username());
             if (user1 != null) {
 
-                return new RegisterResponse(null, null, "faillllled already taken user");
+                return new RegisterResponse(null, null, "Error: already taken");
             }
 
             UserData newUser1 = userInstance.createUser(user.username(), user.password(), user.email());
@@ -42,7 +46,7 @@ public class RegisterService {
 
         } catch (DataAccessException e){
 
-            return new RegisterResponse(null, null, "failled registerService try block");
+            return new RegisterResponse(null, null, "Error: description");
         }
 
     }
