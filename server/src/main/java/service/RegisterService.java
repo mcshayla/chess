@@ -27,7 +27,7 @@ public class RegisterService {
 
         try {
 
-            if (user.username() == null) {
+            if (user.username() == null || user.password() == null || user.email() == null) {
                 return new RegisterResponse(null, null, "Error: bad request");
             }
 
