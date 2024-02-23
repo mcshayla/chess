@@ -20,8 +20,8 @@ public class RegisterHandler implements Route {
         var reg = new Gson().fromJson(request.body(), UserData.class);
         RegisterService registerService = new RegisterService(userInstance, authInstance);
         RegisterResponse registerResponse = registerService.register(reg); //returns register response
-        System.out.println(reg);
-        System.out.println(registerResponse);
+//        System.out.println(reg);
+//        System.out.println(registerResponse);
         if (registerResponse.message() == null) { ////look at specific cases and add if statements
             response.status(200);
         } else if (registerResponse.message().equals("Error: already taken")) {

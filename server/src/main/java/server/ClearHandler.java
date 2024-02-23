@@ -23,8 +23,8 @@ public class ClearHandler implements Route {
         var reg = new Gson().fromJson(request.body(), UserData.class);
         DataBaseService dbService = new DataBaseService(userInstance, authInstance, gameInstance);
         RegisterResponse dbResponse = dbService.database(); //returns register response
-        System.out.println(reg);
-        System.out.println(dbResponse);
+//        System.out.println(reg);
+//        System.out.println(dbResponse);
         if (dbResponse.message() == null) { ////look at specific cases and add if statements
             response.status(200);
         } else {

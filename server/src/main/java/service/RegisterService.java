@@ -22,7 +22,6 @@ public class RegisterService {
 
     public RegisterResponse register(UserData user) {
 
-        System.out.println(user.username());
 
 
         try {

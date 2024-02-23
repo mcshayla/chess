@@ -19,7 +19,6 @@ public class LoginService {
 
 public RegisterResponse login(UserData user) {
 
-    System.out.println(user.username());
 
     try {
 

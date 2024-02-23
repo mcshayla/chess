@@ -26,12 +26,18 @@ public class DataBaseService {
             userInstance.clear();
             authInstance.clear();
             gameInstance.clear();
-
-
             return new RegisterResponse(null, null, null);
 //        } catch (DataAccessException e) {
 //            return new RegisterResponse(null, null, "Error: description");
 //        }
+
+//            userInstance.clear();
+//            authInstance.clear();
+//            gameInstance.clear();
+
+
+
+//
 
 
     }
