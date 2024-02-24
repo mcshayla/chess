@@ -28,9 +28,9 @@ public class MemoryGameDAO implements GameDAO{
     @Override
     public List<GameData> createList() {
         System.out.println(gameList);
-        if (gameList.isEmpty()) {
-            return null;
-        }
+//        if (gameList.isEmpty()) {
+//            return null;
+//        }
         return gameList;
     }
 
