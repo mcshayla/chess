@@ -1,9 +1,12 @@
 package dataAccess;
 
+import chess.ChessGame;
 import model.GameData;
+import model.JoinData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MemoryGameDAO implements GameDAO{
 
@@ -20,14 +23,6 @@ public class MemoryGameDAO implements GameDAO{
         System.out.println(gameList);
 
         return gameId;
-
-
-//        gameName.whiteUsername(), String blackUsername, String gameName, ChessGame
-//        game);
-//        userList.add(user);
-//        System.out.println(userList);
-//
-//        return user;
     }
 
     @Override
@@ -40,8 +35,39 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
+    public GameData getGame(Integer gameId) {
+
+        for( GameData game: gameList) {
+            if (game.gameID().equals(gameId)) return game;
+        }
+        return null;
+    }
+
+    @Override
+    public GameData updateGame(String playerColor, GameData game, String username) {
+        if (playerColor == null) {
+            return game;
+        }
+        if (playerColor.equals("WHITE")) {
+            GameData newGame = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
+            gameList.add(game);
+            System.out.println(newGame);
+            return newGame;
+        } else if (playerColor.equals("BLACK")) {
+            GameData newGame =  new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
+            gameList.add(game);
+            System.out.println(newGame);
+            return newGame;
+
+        }
+        return game;
+
+    }
+
+    @Override
     public void clear() {
         gameList.clear();
 
     }
+
 }

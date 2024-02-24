@@ -48,6 +48,17 @@ public class MemoryAuthDAO implements AuthDAO{
         }
 
     @Override
+    public String getUName(String authToken) throws DataAccessException {
+        for(AuthData auth: authList) {
+            if (auth.authToken().equals(authToken)) {
+                return auth.username();
+            }
+        }
+        return "didn't match";
+    }
+
+
+    @Override
     public void clear() {
         authList.clear();
     }
