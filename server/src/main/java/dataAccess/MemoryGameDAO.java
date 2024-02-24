@@ -40,6 +40,8 @@ public class MemoryGameDAO implements GameDAO{
         for( GameData game: gameList) {
             if (game.gameID().equals(gameId)) return game;
         }
+        //gameList[]
+        //use map;
         return null;
     }
 
@@ -50,12 +52,16 @@ public class MemoryGameDAO implements GameDAO{
         }
         if (playerColor.equals("WHITE")) {
             GameData newGame = new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game());
-            gameList.add(game);
+            gameList.removeIf(item -> item.gameID().equals(game.gameID()));
+
+            gameList.add(newGame);
+
             System.out.println(newGame);
             return newGame;
         } else if (playerColor.equals("BLACK")) {
             GameData newGame =  new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game());
-            gameList.add(game);
+            gameList.removeIf(item -> item.gameID().equals(game.gameID()));
+            gameList.add(newGame);
             System.out.println(newGame);
             return newGame;
 
@@ -65,7 +71,7 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public void clear() {
+    public void clear() throws DataAccessException {
         gameList.clear();
 
     }

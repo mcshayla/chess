@@ -22,11 +22,14 @@ public class DataBaseService {
     }
 
     public RegisterResponse database() {
-//        try {
+        try {
             userInstance.clear();
             authInstance.clear();
             gameInstance.clear();
             return new RegisterResponse(null, null, null);
+        } catch (DataAccessException e) {
+            return new RegisterResponse(null, null, "Error: description");
+        }
 //        } catch (DataAccessException e) {
 //            return new RegisterResponse(null, null, "Error: description");
 //        }

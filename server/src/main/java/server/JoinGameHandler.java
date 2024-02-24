@@ -29,8 +29,10 @@ public class JoinGameHandler implements Route {
 
         if (joinResponse.message() == null) {
             response.status(200);
-        } else if (joinResponse.message().equals("Error: bad request") ) {
+        } else if (joinResponse.message().equals("Error: unauthorized") ) {
             response.status(401);
+        } else if (joinResponse.message().equals("Error: bad request")) {
+            response.status(400);
         } else if (joinResponse.message().equals("Error: already taken")) {
             response.status(403);
         } else {

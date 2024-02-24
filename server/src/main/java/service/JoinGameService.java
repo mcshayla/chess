@@ -25,25 +25,32 @@ public class JoinGameService {
     }
     public JoinResponse joinGame(JoinData playerAndGame, String authToken) {
         try {
-            AuthData auth = authInstance.getAuth(authToken);
 
-            if (auth == null) {
-                return new JoinResponse("Error: unauthorized");
-            }
+
+            AuthData auth = authInstance.getAuth(authToken);
 
             String playerColor = playerAndGame.playerColor();
             Integer gameId = playerAndGame.gameID();
 
             GameData game = gameInstance.getGame(gameId);
 
+
             String username = authInstance.getUName(authToken);
 
-
-
-
-            if (game == null) {
-                return  new JoinResponse("Error: bad request");
+            if (auth == null) {
+                return new JoinResponse("Error: unauthorized");
             }
+            if (game == null) {
+                return new JoinResponse("Error: bad request");
+            }
+
+            if (playerColor != null && playerColor.equals("BLACK") && game.blackUsername() != null) {
+                return new JoinResponse("Error: already taken");
+            }
+            if (playerColor != null && playerColor.equals("WHITE") && game.whiteUsername() != null) {
+                return new JoinResponse("Error: already taken");
+            }
+
 
             game = gameInstance.updateGame(playerColor, game, username);
 
