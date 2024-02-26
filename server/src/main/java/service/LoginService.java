@@ -22,12 +22,7 @@ public RegisterResponse login(UserData user) {
 
     try {
 
-//        if (user.username() == null || user.password() == null || user.email() == null) {
-//            return new RegisterResponse(null, null, "Error: unauthorized");
-//        }
-
         UserData user1 = userInstance.getUser(user.username());
-
 
         if (user1 == null){
 

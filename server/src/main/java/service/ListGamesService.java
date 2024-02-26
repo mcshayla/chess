@@ -31,9 +31,6 @@ public class ListGamesService {
             }
 
             List<GameData> games = gameInstance.createList();
-//            if (games == null) {
-//                return new ListGamesResponse(null, "Error: description");
-//            }
             return new ListGamesResponse(games, null );
         } catch (DataAccessException e) {
             return new ListGamesResponse(null, "Error: description");

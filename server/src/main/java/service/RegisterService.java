@@ -27,6 +27,7 @@ public class RegisterService {
         try {
 
             if (user.username() == null || user.password() == null || user.email() == null) {
+
                 return new RegisterResponse(null, null, "Error: bad request");
             }
 
@@ -40,6 +41,7 @@ public class RegisterService {
 
 
             AuthData newAuth = authInstance.createAuth(user.username());
+
 
             return new RegisterResponse(user.username(), newAuth.authToken(), null);
 

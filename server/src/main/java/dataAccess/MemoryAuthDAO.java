@@ -10,7 +10,7 @@ import java.util.UUID;
 //import UUID
 public class MemoryAuthDAO implements AuthDAO{
 
-    private static List<AuthData> authList;
+    public static List<AuthData> authList;
 
     public MemoryAuthDAO() {
         authList = new ArrayList<>();

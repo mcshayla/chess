@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MemoryUserDAO implements UserDAO{
 
-    private static List<UserData> userList;
+    public static List<UserData> userList;
     public MemoryUserDAO() {
         userList = new ArrayList<>();
     }
@@ -16,7 +16,6 @@ public class MemoryUserDAO implements UserDAO{
 
     @Override
     public UserData getUser(String username) throws DataAccessException {
-
         for (UserData user : userList) {
             if (user.username().equals(username)) {
                 return user;
@@ -25,8 +24,14 @@ public class MemoryUserDAO implements UserDAO{
         return null;
     }
 
-    @Override
+        @Override
     public UserData createUser(String username, String password, String email) throws DataAccessException {
+
+//        for (UserData existingUser : userList) {
+//            if (existingUser.username().equals(username)) {
+//                throw new DataAccessException("User with the same username already exists.");
+//            }
+//        }
 
         UserData user = new UserData(username, password, email);
         userList.add(user);
@@ -42,16 +47,4 @@ public class MemoryUserDAO implements UserDAO{
 
     }
 
-
-    //create a list of objects
-
-    //methods:
-
-    // getUser: pass in user, see if it's in the list, if it is, throw error
-
-    //create user: pass in user. create an object of UserData. append it to list
-
-    //create authToken
-
-    //
 }

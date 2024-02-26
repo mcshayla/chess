@@ -1,6 +1,7 @@
 package dataAccess;
 
 import chess.ChessGame;
+import com.google.gson.JsonArray;
 import model.GameData;
 import model.JoinData;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class MemoryGameDAO implements GameDAO{
 
-    private static List<GameData> gameList;
+    public static List<GameData> gameList;
     public MemoryGameDAO() {
         gameList = new ArrayList<>();
     }
@@ -28,9 +29,6 @@ public class MemoryGameDAO implements GameDAO{
     @Override
     public List<GameData> createList() {
         System.out.println(gameList);
-//        if (gameList.isEmpty()) {
-//            return null;
-//        }
         return gameList;
     }
 
