@@ -157,7 +157,8 @@ public class ChessGame {
     }
 
 
-    private Collection<ChessMove> Players(ChessBoard board, TeamColor teamcolor) {
+
+    private Collection<ChessMove> pPlayers(ChessBoard board, TeamColor teamcolor) {
         Collection<ChessMove> otherPlayers = new ArrayList<>();
         for (int i = 1; i <=8; ++i) {
             for (int j = 1; j <= 8; ++j) {
@@ -172,7 +173,7 @@ public class ChessGame {
     public boolean isInCheck(TeamColor teamColor) {
         ChessPosition kingPosition = findKing(chessboard, teamColor);
 
-        Collection<ChessMove> otherPlayers = Players(chessboard, teamColor);
+        Collection<ChessMove> otherPlayers = pPlayers(chessboard, teamColor);
         for (ChessMove move: otherPlayers) {
             if (move.getEndPosition().equals(kingPosition)){
                 return true;
@@ -185,7 +186,7 @@ public class ChessGame {
     public boolean isInCheck(TeamColor teamColor, ChessBoard board) {
         ChessPosition kingPosition = findKing(board, teamColor);
 
-        Collection<ChessMove> otherPlayers = Players(board, teamColor);
+        Collection<ChessMove> otherPlayers = pPlayers(board, teamColor);
         for (ChessMove move: otherPlayers) {
             if (move.getEndPosition().equals(kingPosition)){
                 return true;
@@ -228,9 +229,9 @@ public class ChessGame {
         Collection<ChessMove> players = new ArrayList<>();
         if (isInCheck(teamColor)) {
             if (teamColor == TeamColor.WHITE) {
-                players = Players(chessboard, TeamColor.BLACK);
+                players = pPlayers(chessboard, TeamColor.BLACK);
             } else {
-                players = Players(chessboard, TeamColor.WHITE);
+                players = pPlayers(chessboard, TeamColor.WHITE);
             }
             for (ChessMove player: players) {
                 ChessBoard copied = new ChessBoard(chessboard);
@@ -258,9 +259,9 @@ public class ChessGame {
         boolean stale = false;
         if (!isInCheckmate(teamColor)){
             if (teamColor == TeamColor.WHITE) {
-                players = Players(chessboard, TeamColor.BLACK);
+                players = pPlayers(chessboard, TeamColor.BLACK);
             } else {
-                players = Players(chessboard, TeamColor.WHITE);
+                players = pPlayers(chessboard, TeamColor.WHITE);
             }
             stale = true;
             for (ChessMove player: players) {
