@@ -22,7 +22,11 @@ public class MoveKnight {
         coordinates.add(new ChessPosition(row-1, col-2));
 
         for (ChessPosition coordinate: coordinates) {
-            if (coordinate.getRow() <=8 && coordinate.getRow() >=1 && coordinate.getColumn() >=1 && coordinate.getColumn() <=8 && (chessBoard.getPiece(coordinate) == null || color != chessBoard.getPiece(coordinate).getTeamColor())) {
+            if (coordinate.getRow() <=8 &&
+                    coordinate.getRow() >=1 &&
+                    coordinate.getColumn() >=1 &&
+                    coordinate.getColumn() <=8 && (chessBoard.getPiece(coordinate) == null ||
+                    color != chessBoard.getPiece(coordinate).getTeamColor())) {
                 moves.add(coordinate);
             }
         }

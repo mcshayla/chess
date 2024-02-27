@@ -148,15 +148,9 @@ public class ChessPiece {
                 ArrayList<ChessPosition> coordinates = movePawn.pawnRules(board, piece, myPosition);
                 for (ChessPosition coordinate : coordinates) {
                     if (piece.getTeamColor() == ChessGame.TeamColor.WHITE && coordinate.getRow() == 8) {
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.ROOK));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.QUEEN));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.BISHOP));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.KNIGHT));
+                        addMoves(hashchessMoves, myPosition, coordinate);
                     } else if (piece.getTeamColor() == ChessGame.TeamColor.BLACK && coordinate.getRow() == 1) {
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.ROOK));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.QUEEN));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.BISHOP));
-                        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.KNIGHT));
+                        addMoves(hashchessMoves, myPosition, coordinate);
                     } else {
                         hashchessMoves.add(new ChessMove(myPosition, coordinate, null));
                     }
@@ -166,4 +160,10 @@ public class ChessPiece {
         }
         return null;
         }
+    public void addMoves(HashSet<ChessMove> hashchessMoves, ChessPosition myPosition, ChessPosition coordinate) {
+        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.ROOK));
+        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.QUEEN));
+        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.BISHOP));
+        hashchessMoves.add(new ChessMove(myPosition, coordinate, PieceType.KNIGHT));
+    }
 }
