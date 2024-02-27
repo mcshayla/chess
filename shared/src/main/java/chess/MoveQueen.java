@@ -12,13 +12,9 @@ public class MoveQueen {
             ChessPosition coordinate = new ChessPosition(row+1, col+1);
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
-                row++;
-                col++;
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-            } else {
-                moves.add(coordinate);
-                break;
+                row++; col++;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         row = position.getRow();
@@ -27,15 +23,9 @@ public class MoveQueen {
             ChessPosition coordinate = new ChessPosition(row-1, col+1);
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
-                row--;
-                col++;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+                row--; col++;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         row = position.getRow();
@@ -44,50 +34,31 @@ public class MoveQueen {
             ChessPosition coordinate = new ChessPosition(row-1, col-1);
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
-                row--;
-                col--;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+                row--; col--;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         row = position.getRow();
         col = position.getColumn();
-
         while (row+1 <= 8 && col - 1 >= 1) { //up and left
             ChessPosition coordinate = new ChessPosition(row+1, col-1);
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
-                row++;
-                col--;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+                row++; col--;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         row = position.getRow();
         col = position.getColumn();
         while (col+1 <= 8) { //right
             ChessPosition coordinate = new ChessPosition(row, col+1);
-
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
                 col++;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         row = position.getRow();
@@ -97,13 +68,8 @@ public class MoveQueen {
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
                 row--;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate);break;
             }
         }
         row = position.getRow();
@@ -113,31 +79,19 @@ public class MoveQueen {
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
                 col--;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
-
         row = position.getRow();
         col = position.getColumn();
-
         while (row+1 <= 8) { //up
             ChessPosition coordinate = new ChessPosition(row+1, col);
             if (chessBoard.getPiece(coordinate) == null) {
                 moves.add(coordinate);
                 row++;
-
-            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) {
-                break;
-
-            } else {
-                moves.add(coordinate);
-                break;
+            } else if (chessBoard.getPiece(coordinate).getTeamColor() == color) { break;
+            } else { moves.add(coordinate); break;
             }
         }
         return moves;
