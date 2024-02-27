@@ -22,14 +22,8 @@ public class MoveKing {
         coordinates.add(new ChessPosition(row -1, col + 1)); //DOWN RIGHT
 
         for (ChessPosition coordinate: coordinates) {
-            if (coordinate.getRow() <=8 && coordinate.getRow() >=1 && coordinate.getColumn() >=1 && coordinate.getColumn() <=8 && (chessBoard.getPiece(coordinate) == null || color != chessBoard.getPiece(coordinate).getTeamColor())) {
-                moves.add(coordinate);
-            }
+            chessPiece.goThruCoor(moves, coordinate, chessBoard, color);
         }
-
-
-
-
         return moves;
     }
 }

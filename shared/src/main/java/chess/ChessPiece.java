@@ -86,6 +86,12 @@ public class ChessPiece {
                 '}';
     }
 
+    public void goThruCoor(ArrayList<ChessPosition> moves, ChessPosition coordinate, ChessBoard chessBoard, ChessGame.TeamColor color){
+        if (coordinate.getRow() <=8 && coordinate.getRow() >=1 && coordinate.getColumn() >=1 && coordinate.getColumn() <=8 && (chessBoard.getPiece(coordinate) == null || color != chessBoard.getPiece(coordinate).getTeamColor())) {
+            moves.add(coordinate);
+        }
+    }
+
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
         PieceType pieceType = piece.getPieceType();
