@@ -3,18 +3,20 @@ package dataAccess;
 import model.AuthData;
 import model.UserData;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-//import UUID
 public class MemoryAuthDAO implements AuthDAO{
 
-    public static List<AuthData> authList;
+//    public static List<AuthData> authList;
 
-    public MemoryAuthDAO() {
-        authList = new ArrayList<>();
-    }
+
+//    public MemoryAuthDAO() {
+//        authList = new ArrayList<>();
+//    }
+
+    public static Map<String, AuthData> authList;
+
+    public MemoryAuthDAO() {authList = new HashMap<>();}
 
     @Override
     public AuthData createAuth(String username) throws DataAccessException {
@@ -23,36 +25,46 @@ public class MemoryAuthDAO implements AuthDAO{
         String authToken = UUID.randomUUID().toString();
         AuthData newAuth = new AuthData(authToken, username);
 
-        authList.add(newAuth);
+//        authList.add(newAuth);
+        authList.put(authToken, newAuth);
 
-        return newAuth; // possibly return newAuth instead??
+        return newAuth;
     }
 
     @Override
     public void deleteAuth(String authToken) throws DataAccessException {
         AuthData findDelete = getAuth(authToken);
-        authList.remove(findDelete);
-        System.out.println(authList);
+        authList.remove(authToken);
 
     }
 
     @Override
     public AuthData getAuth(String authToken) throws DataAccessException {
 
-            for (AuthData auth : authList) {
-                if (auth.authToken().equals(authToken)) {
-                    return auth;
-                }
+//            for (AuthData auth : authList) {
+//                if (auth.authToken().equals(authToken)) {
+//                    return auth;
+//                }
+//            }
+//            return null;
+            AuthData auth = authList.get(authToken);
+            if (auth != null) {
+                return auth;
             }
             return null;
+
         }
 
     @Override
     public String getUName(String authToken) throws DataAccessException {
-        for(AuthData auth: authList) {
-            if (auth.authToken().equals(authToken)) {
-                return auth.username();
-            }
+//        for(AuthData auth: authList) {
+//            if (auth.authToken().equals(authToken)) {
+//                return auth.username();
+//            }
+//        }
+        AuthData auth = authList.get(authToken);
+        if (auth != null) {
+            return auth.username();
         }
         return "didn't match";
     }
@@ -64,11 +76,5 @@ public class MemoryAuthDAO implements AuthDAO{
     }
 }
 
-
-
-
-    //delete auth
-
-    //get auth
 
 

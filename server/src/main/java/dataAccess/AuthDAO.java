@@ -14,12 +14,6 @@ public interface AuthDAO {
 
     String getUName(String authToken) throws DataAccessException;
 
-    //create auth
-
-    //delete auth
-
-    //get auth
-
 
     void clear() throws DataAccessException;
 }

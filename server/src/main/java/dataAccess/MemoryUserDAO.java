@@ -4,22 +4,34 @@ package dataAccess;
 import model.UserData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MemoryUserDAO implements UserDAO{
 
-    public static List<UserData> userList;
+//    public static List<UserData> userList;
+//    public MemoryUserDAO() {
+//        userList = new ArrayList<>();
+//    }
+
+    public static Map<String, UserData> userList;
+
     public MemoryUserDAO() {
-        userList = new ArrayList<>();
+        userList = new HashMap<>();
     }
 
 
     @Override
     public UserData getUser(String username) throws DataAccessException {
-        for (UserData user : userList) {
-            if (user.username().equals(username)) {
-                return user;
-            }
+//        for (UserData user : userList) {
+//            if (user.username().equals(username)) {
+//                return user;
+//            }
+//        }
+        UserData user = userList.get(username);
+        if( user != null){
+            return user;
         }
         return null;
     }
@@ -34,7 +46,7 @@ public class MemoryUserDAO implements UserDAO{
 //        }
 
         UserData user = new UserData(username, password, email);
-        userList.add(user);
+        userList.put(username, user);
         System.out.println(userList);
 
         return user;
