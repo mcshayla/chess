@@ -1,19 +1,15 @@
 package service;
 
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
-import model.UserData;
 import server.LogoutResponse;
-import server.RegisterResponse;
 
 public class LogoutService {
 
-    private final MemoryUserDAO userInstance;
-    private final MemoryAuthDAO authInstance;
+    private final SQLUserDAO userInstance;
+    private final SQLAuthDAO authInstance;
 
-    public LogoutService(MemoryUserDAO memoryUserDAO, MemoryAuthDAO memoryAuthDAO) {
+    public LogoutService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO) {
         this.userInstance = memoryUserDAO;
         this.authInstance = memoryAuthDAO;
     }

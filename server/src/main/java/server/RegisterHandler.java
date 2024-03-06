@@ -38,10 +38,5 @@ public class RegisterHandler implements Route {
         return new Gson().toJson(registerResponse);
 
 
-        //deseralize the request body into an java object
-        //call Registerservice call with object(register request)
-        //set the response status code
-        //return response body
-//        return null;
     }
 }

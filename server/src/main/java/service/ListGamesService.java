@@ -1,24 +1,18 @@
 package service;
 
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.GameData;
-import model.UserData;
 import server.ListGamesResponse;
-import server.RegisterResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListGamesService {
 
     private final MemoryGameDAO gameInstance;
-    private final MemoryAuthDAO authInstance;
+    private final SQLAuthDAO authInstance;
 
-    public ListGamesService(MemoryGameDAO gameInstance, MemoryAuthDAO authInstance) {
+    public ListGamesService(MemoryGameDAO gameInstance, SQLAuthDAO authInstance) {
         this.gameInstance = gameInstance;
         this.authInstance = authInstance;
     }

@@ -7,10 +7,10 @@ import server.GameResponse;
 
 public class CreateGameService {
 
-//    private final MemoryUserDAO userInstance;
-//    private final MemoryAuthDAO authInstance;
+    private final SQLUserDAO userInstance;
+    private final SQLAuthDAO authInstance;
 
-    
+
 
 
     private final MemoryGameDAO gameInstance;
