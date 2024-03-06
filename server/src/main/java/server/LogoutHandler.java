@@ -1,8 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.UserData;
 import service.LogoutService;
@@ -12,8 +11,15 @@ import spark.Response;
 import spark.Route;
 
 public class LogoutHandler implements Route {
-    MemoryUserDAO userInstance = new MemoryUserDAO();
-    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+//    MemoryUserDAO userInstance = new MemoryUserDAO();
+//    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+
+    SQLUserDAO userInstance = new SQLUserDAO();
+    SQLAuthDAO authInstance = new SQLAuthDAO();
+
+    public LogoutHandler() throws DataAccessException {
+    }
+
 
     @Override
     public Object handle(Request request, Response response) throws Exception {

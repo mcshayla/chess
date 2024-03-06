@@ -1,9 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.GameData;
 import model.UserData;
 import service.CreateGameService;
@@ -15,9 +13,15 @@ import spark.Route;
 public class CreateGameHandler implements Route {
 
 
-    MemoryUserDAO userInstance = new MemoryUserDAO();
-    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+//    MemoryUserDAO userInstance = new MemoryUserDAO();
+//    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+    SQLUserDAO userInstance = new SQLUserDAO();
+
+    SQLAuthDAO authInstance = new SQLAuthDAO();
     MemoryGameDAO gameInstance = new MemoryGameDAO();
+
+    public CreateGameHandler() throws DataAccessException {
+    }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {

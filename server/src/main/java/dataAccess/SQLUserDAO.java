@@ -61,7 +61,6 @@ public class SQLUserDAO implements UserDAO {
 
     @Override
     public UserData createUser(String username, String password, String email) throws DataAccessException {
-        DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement("INSERT INTO userTable (username, password, email) VALUES(?, ?, ?)")){
                 preparedStatement.setString(1, username );

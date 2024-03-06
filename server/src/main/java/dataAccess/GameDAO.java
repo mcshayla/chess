@@ -10,7 +10,7 @@ public interface GameDAO {
 
     Integer createGame(GameData gameName, String authToken);
 
-    List<GameData> createList();
+    List<GameData> createList() throws DataAccessException;
 
     GameData getGame(Integer gameId);
 

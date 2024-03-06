@@ -1,9 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryUserDAO;
-import dataAccess.UserDAO;
+import dataAccess.*;
 import model.UserData;
 import service.RegisterService;
 import spark.Request;
@@ -12,8 +10,14 @@ import spark.Route;
 
 public class RegisterHandler implements Route {
 
-    MemoryUserDAO userInstance = new MemoryUserDAO();
-    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+//    MemoryUserDAO userInstance = new MemoryUserDAO();
+//    MemoryAuthDAO authInstance = new MemoryAuthDAO();
+    SQLAuthDAO authInstance = new SQLAuthDAO();
+    SQLUserDAO userInstance = new SQLUserDAO();
+
+    public RegisterHandler() throws DataAccessException {
+    }
+
 
     @Override
     public Object handle(Request request, Response response) throws Exception {

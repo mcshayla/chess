@@ -1,23 +1,21 @@
 package service;
 
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.GameData;
-import model.UserData;
 import server.GameResponse;
-import server.RegisterResponse;
 
 public class CreateGameService {
 
-    private final MemoryUserDAO userInstance;
-    private final MemoryAuthDAO authInstance;
+//    private final MemoryUserDAO userInstance;
+//    private final MemoryAuthDAO authInstance;
+
+    
+
 
     private final MemoryGameDAO gameInstance;
 
-    public CreateGameService(MemoryUserDAO memoryUserDAO, MemoryAuthDAO memoryAuthDAO, MemoryGameDAO memoryGameDAO) {
+    public CreateGameService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO, MemoryGameDAO memoryGameDAO) {
         this.userInstance = memoryUserDAO;
         this.authInstance = memoryAuthDAO;
         this.gameInstance = memoryGameDAO;
