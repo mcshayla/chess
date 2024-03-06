@@ -35,15 +35,8 @@ public class MemoryUserDAO implements UserDAO{
         }
         return null;
     }
-
         @Override
     public UserData createUser(String username, String password, String email) throws DataAccessException {
-
-//        for (UserData existingUser : userList) {
-//            if (existingUser.username().equals(username)) {
-//                throw new DataAccessException("User with the same username already exists.");
-//            }
-//        }
 
         UserData user = new UserData(username, password, email);
         userList.put(username, user);

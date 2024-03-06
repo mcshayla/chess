@@ -4,18 +4,20 @@ import com.google.gson.Gson;
 import dataAccess.*;
 import model.UserData;
 import service.DataBaseService;
-import service.RegisterService;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 public class ClearHandler implements Route {
 
-//    private final SQLAuthDAO authInstance;
-    MemoryUserDAO userInstance = new MemoryUserDAO();
-    MemoryAuthDAO authInstance = new MemoryAuthDAO();
-    
+    private final SQLAuthDAO authInstance = new SQLAuthDAO();
+    private final SQLUserDAO userInstance = new SQLUserDAO();
+//    MemoryUserDAO userInstance = new MemoryUserDAO();
+//    MemoryAuthDAO authInstance = new MemoryAuthDAO();
     MemoryGameDAO gameInstance = new MemoryGameDAO();
+
+    public ClearHandler() throws DataAccessException {
+    }
 
 //    public ClearHandler() throws DataAccessException {
 //        this.authInstance = new SQLAuthDAO();

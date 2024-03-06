@@ -15,7 +15,7 @@ public class Server {
 //        this.regService = new RegisterService();
 //    }
 
-    public int run(int desiredPort) {
+    public int run(int desiredPort) throws DataAccessException {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
