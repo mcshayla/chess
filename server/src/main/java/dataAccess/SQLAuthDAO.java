@@ -17,7 +17,7 @@ public class SQLAuthDAO implements AuthDAO{
             CREATE TABLE IF NOT EXISTS  authTable (
               `authString` varchar(256) NOT NULL,
               `username` varchar(256) NOT NULL,
-              PRIMARY KEY (`authString`),
+              PRIMARY KEY (`authString`)
             )
            """
     };
@@ -31,6 +31,7 @@ public class SQLAuthDAO implements AuthDAO{
                 }
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new DataAccessException("connection in configure database:(");
         }
     }

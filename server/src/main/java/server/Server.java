@@ -15,25 +15,30 @@ public class Server {
 //        this.regService = new RegisterService();
 //    }
 
-    public int run(int desiredPort) throws DataAccessException {
-        Spark.port(desiredPort);
+    public int run(int desiredPort){
+        try {
+            Spark.port(desiredPort);
 
-        Spark.staticFiles.location("web");
-
-
-        Spark.post("/user", new RegisterHandler());
-        Spark.delete("/db", new ClearHandler());
-        Spark.post("/session", new LoginHandler());
-        Spark.delete("/session", new LogoutHandler());
-        Spark.post("/game", new CreateGameHandler());
-        Spark.get("/game", new ListGamesHandler());
-        Spark.put("/game", new JoinGameHandler());
+            Spark.staticFiles.location("web");
 
 
-        // Register your endpoints and handle exceptions here.
+            Spark.post("/user", new RegisterHandler());
+            Spark.delete("/db", new ClearHandler());
+            Spark.post("/session", new LoginHandler());
+            Spark.delete("/session", new LogoutHandler());
+            Spark.post("/game", new CreateGameHandler());
+            Spark.get("/game", new ListGamesHandler());
+            Spark.put("/game", new JoinGameHandler());
 
-        Spark.awaitInitialization();
-        return Spark.port();
+
+            // Register your endpoints and handle exceptions here.
+
+            Spark.awaitInitialization();
+            return Spark.port();
+        }
+        catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void stop() {

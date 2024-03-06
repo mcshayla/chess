@@ -30,14 +30,14 @@ public class userServerTest {
 
 
     @Test
-    public void posRegister() {
-        RegisterService registerService = new RegisterService(new MemoryUserDAO(), new MemoryAuthDAO());
+    public void posRegister() throws DataAccessException {
+        RegisterService registerService = new RegisterService(new SQLUserDAO(), new SQLAuthDAO());
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
         assertNotNull(MemoryUserDAO.userList);
     }
     @Test
-    public void negRegister() {
-        RegisterService registerService = new RegisterService(new MemoryUserDAO(), new MemoryAuthDAO());
+    public void negRegister() throws DataAccessException {
+        RegisterService registerService = new RegisterService(new SQLUserDAO(), new SQLAuthDAO());
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
         RegisterResponse registerResponse2 = registerService.register(new UserData("username1", "password1", "email1"));
         assertEquals(1, userList.size());

@@ -27,7 +27,7 @@ public class SQLGameDAO implements GameDAO{
               `blackUsername` varchar(256),
               `gameName` varchar(256),
               `chessGame` blob,
-              PRIMARY KEY (`gameID`),
+              PRIMARY KEY (`gameID`)
             )
            """
     };

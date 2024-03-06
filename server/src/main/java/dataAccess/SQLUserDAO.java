@@ -21,7 +21,7 @@ public class SQLUserDAO implements UserDAO {
               `username` varchar(256) NOT NULL,
               `password` varchar(256) NOT NULL,
               `email` varchar(2566) NOT NULL,
-              PRIMARY KEY (`username`),
+              PRIMARY KEY (`username`)
             )
            """
     };
