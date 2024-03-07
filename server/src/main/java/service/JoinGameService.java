@@ -8,12 +8,12 @@ import server.JoinResponse;
 
 public class JoinGameService {
 
-    private final MemoryGameDAO gameInstance;
+    private final SQLGameDAO gameInstance;
     private final SQLAuthDAO authInstance;
 
     private final SQLUserDAO userInstance;
 
-    public JoinGameService(MemoryGameDAO memoryGameDAO, SQLAuthDAO memoryAuthDAO, SQLUserDAO memoryUserDAO) {
+    public JoinGameService(SQLGameDAO memoryGameDAO, SQLAuthDAO memoryAuthDAO, SQLUserDAO memoryUserDAO) {
         this.gameInstance = memoryGameDAO;
         this.authInstance = memoryAuthDAO;
         this.userInstance = memoryUserDAO;

@@ -14,7 +14,8 @@ public class ClearHandler implements Route {
     private final SQLUserDAO userInstance = new SQLUserDAO();
 //    MemoryUserDAO userInstance = new MemoryUserDAO();
 //    MemoryAuthDAO authInstance = new MemoryAuthDAO();
-    MemoryGameDAO gameInstance = new MemoryGameDAO();
+//    MemoryGameDAO gameInstance = new MemoryGameDAO();
+    private final SQLGameDAO gameInstance = new SQLGameDAO();
 
     public ClearHandler() throws DataAccessException {
     }

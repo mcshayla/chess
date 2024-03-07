@@ -1,8 +1,6 @@
 package service;
 
 import dataAccess.*;
-import model.AuthData;
-import model.UserData;
 import server.RegisterResponse;
 
 public class DataBaseService {
@@ -10,9 +8,9 @@ public class DataBaseService {
     private final SQLUserDAO userInstance;
     private final SQLAuthDAO authInstance;
 
-    private final MemoryGameDAO gameInstance;
+    private final SQLGameDAO gameInstance;
 
-    public DataBaseService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO, MemoryGameDAO memoryGameDAO) {
+    public DataBaseService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO, SQLGameDAO memoryGameDAO) {
         this.userInstance = memoryUserDAO;
         this.authInstance = memoryAuthDAO;
         this.gameInstance = memoryGameDAO;

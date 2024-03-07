@@ -13,9 +13,9 @@ public class CreateGameService {
 
 
 
-    private final MemoryGameDAO gameInstance;
+    private final SQLGameDAO gameInstance;
 
-    public CreateGameService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO, MemoryGameDAO memoryGameDAO) {
+    public CreateGameService(SQLUserDAO memoryUserDAO, SQLAuthDAO memoryAuthDAO, SQLGameDAO memoryGameDAO) {
         this.userInstance = memoryUserDAO;
         this.authInstance = memoryAuthDAO;
         this.gameInstance = memoryGameDAO;

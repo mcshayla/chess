@@ -20,7 +20,7 @@ public class userServerTest {
 
 //    MemoryUserDAO memoryUserDAO = new MemoryUserDAO();
 //    MemoryAuthDAO memoryAuthDAO = new MemoryAuthDAO();
-    MemoryGameDAO memoryGameDAO = new MemoryGameDAO();
+    SQLGameDAO memoryGameDAO = new SQLGameDAO();
 
     SQLAuthDAO memoryAuthDAO = new SQLAuthDAO();
     SQLUserDAO memoryUserDAO = new SQLUserDAO();

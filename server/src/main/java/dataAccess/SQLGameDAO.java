@@ -56,7 +56,7 @@ public class SQLGameDAO implements GameDAO{
             ChessGame chessGame = gameName.game();
 
 
-            try (var preparedStatement = conn.prepareStatement("INSERT INTO gameTable (whiteUsername, blackUsername, gameName, chessGame ) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+            try (var preparedStatement = conn.prepareStatement("INSERT INTO gameTable (whiteUsername, blackUsername, gameName, chessGame) VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
                 preparedStatement.setString(1, whiteUser);
                 preparedStatement.setString(2, blackUser);
                 preparedStatement.setString(3, gName);
@@ -79,11 +79,11 @@ public class SQLGameDAO implements GameDAO{
     public List<GameData> createList() throws DataAccessException {
         var result = new ArrayList<GameData>();
         try (var conn = DatabaseManager.getConnection()) {
-            var statement = "SELECT id, whiteUsername, blackUsername, gameName, chessGame FROM gameTable";
+            var statement = "SELECT gameID, whiteUsername, blackUsername, gameName, chessGame FROM gameTable";
             try (var ps = conn.prepareStatement(statement)) {
                 try (var rs = ps.executeQuery()) {
                     while (rs.next()) {
-                        var id = rs.getInt("id");
+                        var id = rs.getInt("gameID");
                         var white = rs.getString("whiteUsername");
                         var black = rs.getString("blackUsername");
                         var name = rs.getString("gameName");
@@ -103,16 +103,63 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public GameData getGame(Integer gameId) {
-        return null;
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, chessGame FROM gameTable WHERE GameID = ?")) {
+                preparedStatement.setInt(1, gameId);
+                try (var rs = preparedStatement.executeQuery()) {
+                    if (rs.next()) {
+                        var id = rs.getInt("gameID");
+                        var white = rs.getString("whiteUsername");
+                        var black = rs.getString("blackUsername");
+                        var name = rs.getString("gameName");
+                        var game = rs.getString("chessGame");
+                        ChessGame chessGame = new Gson().fromJson(game, ChessGame.class);
+                        return new GameData(id, white, black, name, chessGame);
+                    }
+                    return null;
+                }
+            }
+
+        } catch (DataAccessException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public GameData updateGame(String playerColor, GameData game, String username) {
+        Integer gameId = game.gameID();
+        try (var conn = DatabaseManager.getConnection()) {
+            if (playerColor == null) {
+                return game;
+            }
+            if (playerColor.equals("WHITE")) {
+                try (var preparedStatement = conn.prepareStatement("UPDATE gameTable SET whiteUsername=? WHERE gameId=?")) {
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setInt(2, gameId);
+                    preparedStatement.executeUpdate();
+                }
+            } else {
+                try (var preparedStatement = conn.prepareStatement("UPDATE gameTable SET blackUsername=? WHERE gameId=?")) {
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setInt(2, gameId);
+                    preparedStatement.executeUpdate();
+                }
+            }
+        } catch (SQLException | DataAccessException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public void clear() throws DataAccessException {
-
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("TRUNCATE gameTable")) {
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("truncating authTable error");
+        }
     }
 }

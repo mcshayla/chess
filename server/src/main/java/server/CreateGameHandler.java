@@ -18,7 +18,8 @@ public class CreateGameHandler implements Route {
     SQLUserDAO userInstance = new SQLUserDAO();
 
     SQLAuthDAO authInstance = new SQLAuthDAO();
-    MemoryGameDAO gameInstance = new MemoryGameDAO();
+//    MemoryGameDAO gameInstance = new MemoryGameDAO();
+    SQLGameDAO gameInstance = new SQLGameDAO();
 
     public CreateGameHandler() throws DataAccessException {
     }

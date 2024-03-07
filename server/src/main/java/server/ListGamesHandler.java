@@ -13,7 +13,8 @@ public class ListGamesHandler implements Route {
 
 //    MemoryAuthDAO authInstance = new MemoryAuthDAO();
     SQLAuthDAO authInstance = new SQLAuthDAO();
-    MemoryGameDAO gameInstance = new MemoryGameDAO();
+    SQLGameDAO gameInstance = new SQLGameDAO();
+//    MemoryGameDAO gameInstance = new MemoryGameDAO();
 
     public ListGamesHandler() throws DataAccessException {
     }

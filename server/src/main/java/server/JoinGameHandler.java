@@ -13,10 +13,11 @@ import spark.Route;
 
 public class JoinGameHandler implements Route {
 
-    MemoryGameDAO gameInstance = new MemoryGameDAO();
+//    MemoryGameDAO gameInstance = new MemoryGameDAO();
 //    MemoryAuthDAO authInstance = new MemoryAuthDAO();
 //    MemoryUserDAO userInstance = new MemoryUserDAO();
     SQLAuthDAO authInstance = new SQLAuthDAO();
+    SQLGameDAO gameInstance = new SQLGameDAO();
     SQLUserDAO userInstance = new SQLUserDAO();
 
     public JoinGameHandler() throws DataAccessException {

@@ -5,14 +5,15 @@ import model.AuthData;
 import model.GameData;
 import server.ListGamesResponse;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 public class ListGamesService {
 
-    private final MemoryGameDAO gameInstance;
+    private final SQLGameDAO gameInstance;
     private final SQLAuthDAO authInstance;
 
-    public ListGamesService(MemoryGameDAO gameInstance, SQLAuthDAO authInstance) {
+    public ListGamesService(SQLGameDAO gameInstance, SQLAuthDAO authInstance) {
         this.gameInstance = gameInstance;
         this.authInstance = authInstance;
     }
@@ -23,8 +24,10 @@ public class ListGamesService {
             if (auth == null) {
                 return new ListGamesResponse(null, "Error: unauthorized");
             }
-
+            System.out.println("before createList");
             List<GameData> games = gameInstance.createList();
+            System.out.println("after createList");
+            System.out.println(games);
             return new ListGamesResponse(games, null );
         } catch (DataAccessException e) {
             return new ListGamesResponse(null, "Error: description");
