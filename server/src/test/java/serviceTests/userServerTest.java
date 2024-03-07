@@ -5,11 +5,10 @@ import dataAccess.*;
 import model.GameData;
 import model.JoinData;
 import model.UserData;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.JoinResponse;
-import server.ListGamesResponse;
-import server.LogoutResponse;
-import server.RegisterResponse;
+import server.*;
 import service.*;
 
 import static dataAccess.MemoryUserDAO.userList;
@@ -17,30 +16,60 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class userServerTest {
 
+    static SQLGameDAO memoryGameDAO;
 
-//    MemoryUserDAO memoryUserDAO = new MemoryUserDAO();
-//    MemoryAuthDAO memoryAuthDAO = new MemoryAuthDAO();
-    SQLGameDAO memoryGameDAO = new SQLGameDAO();
+    static {
+        try {
+            memoryGameDAO = new SQLGameDAO();
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    SQLAuthDAO memoryAuthDAO = new SQLAuthDAO();
-    SQLUserDAO memoryUserDAO = new SQLUserDAO();
+    static SQLAuthDAO memoryAuthDAO;
+
+    static {
+        try {
+            memoryAuthDAO = new SQLAuthDAO();
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static SQLUserDAO memoryUserDAO;
+
+    static {
+        try {
+            memoryUserDAO = new SQLUserDAO();
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public userServerTest() throws DataAccessException {
     }
 
-
+    @BeforeEach
+    public void clearAll() {
+        DataBaseService clearHandler;
+        clearHandler = new DataBaseService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
+        RegisterResponse dbResponse = clearHandler.database();
+    }
     @Test
     public void posRegister() throws DataAccessException {
         RegisterService registerService = new RegisterService(new SQLUserDAO(), new SQLAuthDAO());
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        assertNotNull(MemoryUserDAO.userList);
+//        assertNotNull(MemoryUserDAO.userList);
+        assertNull(registerResponse.message());
     }
     @Test
     public void negRegister() throws DataAccessException {
         RegisterService registerService = new RegisterService(new SQLUserDAO(), new SQLAuthDAO());
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
         RegisterResponse registerResponse2 = registerService.register(new UserData("username1", "password1", "email1"));
-        assertEquals(1, userList.size());
+//        assertEquals(1, userList.size());
+        assertEquals("Error: already taken", registerResponse2.message());
+
 
     }
 
@@ -55,16 +84,19 @@ public class userServerTest {
     @Test
     public void posLogin() {
         LoginService loginService = registerLogin();
-        loginService.login(new UserData("username1", "password1", "email1"));
-        assertEquals(2, MemoryAuthDAO.authList.size());
+        RegisterResponse registerResponse = loginService.login(new UserData("username1", "password1", "email1"));
+
+//        assertEquals(2, MemoryAuthDAO.authList.size());
+        assertNull(registerResponse.message());
+
 
     }
 
     @Test
     public void negLogin() {
         LoginService loginService = registerLogin();
-        loginService.login(new UserData(null, "password1", "email1"));
-        assertEquals(1, MemoryAuthDAO.authList.size());
+        RegisterResponse registerResponse = loginService.login(new UserData(null, "password1", "email1"));
+        assertEquals("Error: unauthorized", registerResponse.message());
     }
 
     @Test
@@ -77,7 +109,9 @@ public class userServerTest {
         loginService.login(new UserData("username1", "password1", "email1"));
         String authToken = registerResponse.authToken();
         LogoutResponse logoutResponse = logoutService.logout(authToken);
-        assertEquals(1, MemoryAuthDAO.authList.size());
+//        assertEquals(1, MemoryAuthDAO.authList.size());
+        assertNull(logoutResponse.message());
+
 
     }
 
@@ -91,7 +125,7 @@ public class userServerTest {
         loginService.login(new UserData("username1", "password1", "email1"));
         String authToken = registerResponse.authToken();
         LogoutResponse logoutResponse = logoutService.logout(null);
-        assertEquals(2, MemoryAuthDAO.authList.size());
+        assertEquals("Error: unauthorized", logoutResponse.message());
 
     }
 
@@ -114,8 +148,8 @@ public class userServerTest {
         String authToken = registerResponse.authToken();
 
         GameData gameName = new GameData(null, null,null, null, null);
-        createGameService.createGame(gameName, authToken);
-        assertEquals(1, MemoryGameDAO.gameList.size());
+        GameResponse gameResponse = createGameService.createGame(gameName, authToken);
+        assertNull(gameResponse.message());
 
     }
 
@@ -131,9 +165,9 @@ public class userServerTest {
         CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
 
         GameData gameName = new GameData(null, null,null, null, null);
-        createGameService.createGame(gameName, null);
-        System.out.println(MemoryGameDAO.gameList);
-        assertEquals(0, MemoryGameDAO.gameList.size());
+        GameResponse gameResponse = createGameService.createGame(gameName, null);
+
+        assertEquals("Error: unauthorized", gameResponse.message());
     }
 
     @Test
@@ -177,7 +211,7 @@ public class userServerTest {
     }
 
     @Test void negJoinGame() { // no game
-        JoinData joinData = new JoinData("WHITE",  7);
+        JoinData joinData = new JoinData("WHITE",  1);
         JoinGameService joinGameService = new JoinGameService(memoryGameDAO, memoryAuthDAO, memoryUserDAO);
         RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
@@ -189,7 +223,7 @@ public class userServerTest {
     }
 
     @Test void posJoinGame() { // no game
-        JoinData joinData = new JoinData("WHITE",  7);
+        JoinData joinData = new JoinData("WHITE",  1);
         JoinGameService joinGameService = new JoinGameService(memoryGameDAO, memoryAuthDAO, memoryUserDAO);
         RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
         RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
@@ -200,16 +234,16 @@ public class userServerTest {
         createGameService.createGame(gameName, authToken);
 
         JoinResponse response =  joinGameService.joinGame(joinData, authToken);
-
         assertEquals(null, response.message());
+
     }
 
     @Test void posClear() {
         LoginService loginService = registerLogin();
         DataBaseService dataBaseService = new DataBaseService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-        dataBaseService.database();
+        RegisterResponse response = dataBaseService.database();
 
-        assertEquals(0,userList.size());
+        assertEquals(null, response.message());
     }
 
 
