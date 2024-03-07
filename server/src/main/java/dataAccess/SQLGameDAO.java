@@ -49,6 +49,9 @@ public class SQLGameDAO implements GameDAO{
     @Override
     public Integer createGame(GameData gameName, String authToken) {
         Integer gameId = null;
+        if (authToken == null) {
+            return gameId;
+        }
         try (var conn = DatabaseManager.getConnection()) {
             String blackUser = gameName.blackUsername();
             String whiteUser = gameName.whiteUsername();

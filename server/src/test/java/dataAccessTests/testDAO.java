@@ -1,5 +1,6 @@
 package dataAccessTests;
 
+import chess.ChessGame;
 import dataAccess.DataAccessException;
 import dataAccess.SQLAuthDAO;
 import dataAccess.SQLGameDAO;
@@ -12,6 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.*;
 import service.*;
+
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -125,225 +129,127 @@ public class testDAO {
 
     @Test
     public void posDeleteAuth() throws DataAccessException {
-        DataAccessException exception = assertThrows(DataAccessException.class, () -> {
-            memoryAuthDAO.deleteAuth(null);
-        });
-
-        assertEquals(exception.getMessage(), "error deleteAuth function");
-
-
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        assertNotNull(newAuth);
+        memoryAuthDAO.deleteAuth(newAuth.authToken());
+        AuthData test = memoryAuthDAO.getAuth(newAuth.authToken());
+        assertNull(test);
     }
     @Test
     public void negDeleteAuth() throws DataAccessException {
-        DataAccessException exception = assertThrows(DataAccessException.class, () -> {
-            memoryAuthDAO.deleteAuth(null);
-        });
-
-        assertEquals(exception.getMessage(), "error deleteAuth function");
-
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        assertNotNull(newAuth);
+        memoryAuthDAO.deleteAuth("no token");
+        AuthData test = memoryAuthDAO.getAuth(newAuth.authToken());
+        assertNotNull(test);
 
     }
 
     @Test
-    public void posGetAuth() throws DataAccessException {
+    public void negGetAuth() throws DataAccessException {
         AuthData authData = memoryAuthDAO.getAuth("Ilikepie");
         assertNull(authData);
     }
 
     @Test
-    public void negGetAuth() throws DataAccessException {
-        AuthData authData = memoryAuthDAO.getAuth(null);
+    public void posGetAuth() throws DataAccessException {
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        AuthData authData = memoryAuthDAO.getAuth(newAuth.authToken());
         assertNotNull(authData);
     }
 
-
-
-
-
-
-//    @Test
-//    public void negRegister() throws DataAccessException {
-//        RegisterService registerService = new RegisterService(new SQLUserDAO(), new SQLAuthDAO());
-//        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-//        RegisterResponse registerResponse2 = registerService.register(new UserData("username1", "password1", "email1"));
-////        assertEquals(1, userList.size());
-//        assertEquals("Error: already taken", registerResponse2.message());
-//
-//
-//    }
-
-    public LoginService registerLogin() {
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        return loginService;
-    }
-
     @Test
-    public void posLogin() {
-        LoginService loginService = registerLogin();
-        RegisterResponse registerResponse = loginService.login(new UserData("username1", "password1", "email1"));
-
-//        assertEquals(2, MemoryAuthDAO.authList.size());
-        assertNull(registerResponse.message());
-
+    public void posGetUName() throws DataAccessException {
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        String username = memoryAuthDAO.getUName(newAuth.authToken());
+        assertEquals(username, "username1");
 
     }
 
     @Test
-    public void negLogin() {
-        LoginService loginService = registerLogin();
-        RegisterResponse registerResponse = loginService.login(new UserData(null, "password1", "email1"));
-        assertEquals("Error: unauthorized", registerResponse.message());
-    }
-
-    @Test
-    public void posLogout() {
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        LogoutService logoutService = new LogoutService(memoryUserDAO, memoryAuthDAO);
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-        String authToken = registerResponse.authToken();
-        LogoutResponse logoutResponse = logoutService.logout(authToken);
-//        assertEquals(1, MemoryAuthDAO.authList.size());
-        assertNull(logoutResponse.message());
-
+    public void negGetUName() throws DataAccessException {
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        String username = memoryAuthDAO.getUName(null);
+        assertNull(username);
 
     }
 
     @Test
-    public void negLogout() {
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        LogoutService logoutService = new LogoutService(memoryUserDAO, memoryAuthDAO);
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-        String authToken = registerResponse.authToken();
-        LogoutResponse logoutResponse = logoutService.logout(null);
-        assertEquals("Error: unauthorized", logoutResponse.message());
-
-    }
-
-    public CreateGameService createGame() {
-        return null;
-    }
-
-
-    @Test
-    public void posCreateGame() {
-
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-
-        CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-        String authToken = registerResponse.authToken();
-
-        GameData gameName = new GameData(null, null,null, null, null);
-        GameResponse gameResponse = createGameService.createGame(gameName, authToken);
-        assertNull(gameResponse.message());
-
+    public void clearAuth() throws DataAccessException {
+        AuthData newAuth = memoryAuthDAO.createAuth("username1");
+        assertNotNull(newAuth);
+        memoryAuthDAO.clear();
+        AuthData test = memoryAuthDAO.getAuth(newAuth.authToken());
+        assertNull(test);
     }
 
     @Test
-    public void negCreateGame() { // no auth token
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-
-        CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-
-        GameData gameName = new GameData(null, null,null, null, null);
-        GameResponse gameResponse = createGameService.createGame(gameName, null);
-
-        assertEquals("Error: unauthorized", gameResponse.message());
+    public void posCreateGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        String authToken = UUID.randomUUID().toString();
+        Integer id = memoryGameDAO.createGame(gameData, authToken);
+        assertNotNull(id);
     }
 
     @Test
-    public void posListGame() {
-
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-
-        CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-
-        ListGamesService listGamesService = new ListGamesService(memoryGameDAO,memoryAuthDAO);
-        String authToken = registerResponse.authToken();
-        ListGamesResponse response =  listGamesService.listGames(authToken);
-
-        assertEquals(null, response.message());
-
+    public void negCreateGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        String authToken = UUID.randomUUID().toString();
+        Integer id = memoryGameDAO.createGame(gameData, null);
+        assertNull(id);
     }
 
     @Test
-    void negListGames() {
-
-
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-
-        LoginService loginService = new LoginService(memoryUserDAO, memoryAuthDAO);
-        loginService.login(new UserData("username1", "password1", "email1"));
-
-        CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-
-        ListGamesService listGamesService = new ListGamesService(memoryGameDAO,memoryAuthDAO);
-        String authToken = registerResponse.authToken();
-        ListGamesResponse response =  listGamesService.listGames("fake auth");
-
-        assertEquals("Error: unauthorized", response.message());
-
+    public void posCreateList() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        Integer id = memoryGameDAO.createGame(gameData, "token");
+        List<GameData> gameDataList = memoryGameDAO.createList();
+        assertEquals(gameDataList.size(), 1);
     }
 
-    @Test void negJoinGame() { // no game
-        JoinData joinData = new JoinData("WHITE",  1);
-        JoinGameService joinGameService = new JoinGameService(memoryGameDAO, memoryAuthDAO, memoryUserDAO);
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        String authToken = registerResponse.authToken();
-
-        JoinResponse response =  joinGameService.joinGame(joinData, authToken);
-
-        assertEquals("Error: bad request", response.message());
+    @Test
+    public void negCreateList() throws DataAccessException {
+        List<GameData> gameDataList = memoryGameDAO.createList();
+        assertEquals(gameDataList.size(), 0);
     }
 
-    @Test void posJoinGame() { // no game
-        JoinData joinData = new JoinData("WHITE",  1);
-        JoinGameService joinGameService = new JoinGameService(memoryGameDAO, memoryAuthDAO, memoryUserDAO);
-        RegisterService registerService = new RegisterService(memoryUserDAO, memoryAuthDAO);
-        RegisterResponse registerResponse = registerService.register(new UserData("username1", "password1", "email1"));
-        String authToken = registerResponse.authToken();
-
-        CreateGameService createGameService = new CreateGameService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-        GameData gameName = new GameData(null, null,null, null, null);
-        createGameService.createGame(gameName, authToken);
-
-        JoinResponse response =  joinGameService.joinGame(joinData, authToken);
-        assertEquals(null, response.message());
-
+    @Test
+    public void posGetGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        Integer id = memoryGameDAO.createGame(gameData, "test token");
+        GameData gameData1 = memoryGameDAO.getGame(1);
+        assertNotNull(gameData1);
     }
 
-    @Test void posClear() {
-        LoginService loginService = registerLogin();
-        DataBaseService dataBaseService = new DataBaseService(memoryUserDAO, memoryAuthDAO, memoryGameDAO);
-        RegisterResponse response = dataBaseService.database();
-
-        assertEquals(null, response.message());
+    @Test
+    public void negGetGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        Integer id = memoryGameDAO.createGame(gameData, "test token");
+        assertNull(memoryGameDAO.getGame(2));
     }
+
+    @Test
+    public void posUpdateGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        GameData updated = memoryGameDAO.updateGame("WHITE", gameData, "ohhyeahh");
+        assertNull(updated);
+    }
+
+    @Test void negUpdateGame() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        GameData updated = memoryGameDAO.updateGame(null, gameData, "ohhyeahh");
+        assertNotNull(updated);
+    }
+
+    @Test void gameClear() throws DataAccessException {
+        GameData gameData = new GameData(1, "whiteU", "blackU", "coolName", new ChessGame());
+        String authToken = UUID.randomUUID().toString();
+        Integer id = memoryGameDAO.createGame(gameData, authToken);
+        memoryGameDAO.clear();
+        GameData test = memoryGameDAO.getGame(1);
+        assertNull(test);
+    }
+    
 
 
 }

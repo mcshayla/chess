@@ -2,6 +2,7 @@ package dataAccess;
 
 import model.AuthData;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -77,6 +78,7 @@ public class SQLAuthDAO implements AuthDAO{
                         return new AuthData(authString, user);
                     }
                     return null;
+//
                 }
             }
         } catch (SQLException e) {
