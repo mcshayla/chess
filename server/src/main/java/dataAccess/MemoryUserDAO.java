@@ -3,9 +3,7 @@ package dataAccess;
 
 import model.UserData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MemoryUserDAO implements UserDAO{
@@ -47,9 +45,10 @@ public class MemoryUserDAO implements UserDAO{
     }
 
     @Override
-    public void clear() throws DataAccessException {
+    public UserData clear() throws DataAccessException {
         userList.clear();
 
+        return null;
     }
 
 }

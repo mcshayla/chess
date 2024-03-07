@@ -1,6 +1,5 @@
 package dataAccess;
 
-import model.AuthData;
 import model.UserData;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -78,7 +77,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void clear() throws DataAccessException {
+    public UserData clear() throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement("TRUNCATE userTable")) {
                 preparedStatement.executeUpdate();
@@ -86,5 +85,6 @@ public class SQLUserDAO implements UserDAO {
         } catch (SQLException e) {
             throw new DataAccessException("truncating authTable error");
         }
+        return null;
     }
 }
