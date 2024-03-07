@@ -1,10 +1,7 @@
 package dataAccessTests;
 
 import chess.ChessGame;
-import dataAccess.DataAccessException;
-import dataAccess.SQLAuthDAO;
-import dataAccess.SQLGameDAO;
-import dataAccess.SQLUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.GameData;
 import model.JoinData;
@@ -14,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import server.*;
 import service.*;
 
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.UUID;
 
@@ -249,7 +248,123 @@ public class testDAO {
         GameData test = memoryGameDAO.getGame(1);
         assertNull(test);
     }
-    
+
+    @Test void posSQLGame() throws DataAccessException {
+        new SQLGameDAO();
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'gameTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void posSQLUser() throws DataAccessException {
+        new SQLUserDAO();
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'userTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void posSQLAuth() throws DataAccessException {
+        new SQLUserDAO();
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'authTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test void negSQLGame() throws DataAccessException {
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'gameTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void negSQLUser() throws DataAccessException {
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'userTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test void negSQLAuth() throws DataAccessException {
+        try (var connection = DatabaseManager.getConnection()) {
+            // Execute a query to check if the game table exists
+            try (Statement statement = connection.createStatement()) {
+                String query = "SHOW TABLES LIKE 'authTable'";
+                boolean tableExists = statement.executeQuery(query).next();
+                // Assert that the game table exists
+                assertTrue(tableExists);
+//        new SQLGameDAO();
+//        assertNotNull(memoryGameDAO);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }
