@@ -4,7 +4,6 @@ import chess.ChessGame;
 import dataAccess.*;
 import model.AuthData;
 import model.GameData;
-import model.JoinData;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testDAO {
+public class DAOTest {
 
     static SQLGameDAO memoryGameDAO;
 
@@ -289,6 +288,18 @@ public class testDAO {
         }
     }
 
+//    @BeforeEach
+//    public void deleteData() throws DataAccessException{
+//        try (Connection connection = DatabaseManager.getConnection()) {
+//            try (Statement statement = connection.createStatement()) {
+//                String query = "DROP DATABASE IF EXISTS `chess`";
+//                statement.executeUpdate(query);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     @Test void posSQLAuth() throws DataAccessException {
         new SQLUserDAO();
         try (var connection = DatabaseManager.getConnection()) {
@@ -310,14 +321,13 @@ public class testDAO {
     }
     @Test void negSQLGame() throws DataAccessException {
         try (var connection = DatabaseManager.getConnection()) {
-            // Execute a query to check if the game table exists
+
             try (Statement statement = connection.createStatement()) {
                 String query = "SHOW TABLES LIKE 'gameTable'";
                 boolean tableExists = statement.executeQuery(query).next();
-                // Assert that the game table exists
+
                 assertTrue(tableExists);
-//        new SQLGameDAO();
-//        assertNotNull(memoryGameDAO);
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
