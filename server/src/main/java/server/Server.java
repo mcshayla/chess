@@ -8,13 +8,6 @@ import spark.*;
 
 public class Server {
 
-//    RegisterService regService;
-
-
-//    public void RegisterServer(UserData username, UserData password, UserData email) {
-//        this.regService = new RegisterService();
-//    }
-
     public int run(int desiredPort){
         try {
             Spark.port(desiredPort);
