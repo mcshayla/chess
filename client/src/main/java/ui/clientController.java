@@ -6,7 +6,9 @@ import model.GameData;
 import model.UserData;
 
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Scanner;
 
 import static ui.EscapeSequences.ERASE_SCREEN;
@@ -180,12 +182,10 @@ public class clientController {
         var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
         ServerFacade.ListGamesResponse listGamesResponse = this.serverFacade.listGamesServer(keepAuthToken);
-        out.println(listGamesResponse.games());
-//        if (keepAuthToken != null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
-//            state = client.State.SIGNEDIN;
-//        } else {
-//            out.println("listGames failed");
-//            exit = true;
-//        }
+        int counter = 1;
+        for (GameData game : listGamesResponse.games()) {
+            out.println(String.format("%d: gamename: %s, whiteUser: %s, blackUser: %s", counter, game.gameName(), game.whiteUsername(), game.blackUsername()));
+            counter++;
+        }
     }
 }
