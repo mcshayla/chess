@@ -1,6 +1,8 @@
 package ui;
 
 import chess.ChessBoard;
+import chess.ChessGame;
+import model.GameData;
 import model.UserData;
 
 import java.io.PrintStream;
@@ -19,6 +21,8 @@ public class clientController {
     private static boolean exit = false;
 
     private ServerFacade serverFacade;
+
+    private String keepAuthToken = null;
 
     public clientController() {
         this.serverFacade = new ServerFacade(null);
@@ -39,7 +43,7 @@ public class clientController {
             }
         }
     }
-    private static void signedIn() {
+    private void signedIn() throws ResponseException {
         var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 //        String input = scanner.nextLine().toLowerCase();
 
@@ -111,21 +115,29 @@ public class clientController {
 
         if (userData != null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
             state = client.State.SIGNEDIN;
-            return;
-//            displayPostLogin();
         } else {
             out.println("Register failed");
             exit = true;
         }
     }
 
-    private static void createGame() {
-        System.out.println("made it to createGame function");
-        exit = true;
-    }
-    private static void listGames() {
-        System.out.println("made it to listGame function");
-        exit = true;
+    private void createGame() throws ResponseException {
+
+        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        out.println("please enter game name");
+        String givenGameName = scanner.nextLine();
+
+        GameData gameData = new GameData(null, null, null, givenGameName, new ChessGame());
+
+        ServerFacade.GameResponse gameResponse = this.serverFacade.createGamesServer(keepAuthToken, gameData);
+        System.out.println(gameResponse.gameID());
+        if (gameResponse.gameID() != null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+            out.println("new game has been created. YAY");
+        } else {
+            out.println("Creation of game failed, sad.");
+            exit = true;
+        }
+
     }
 
     private static void joinGame(){
@@ -136,12 +148,44 @@ public class clientController {
         System.out.println("made it to observeGame function");
         exit = true;
     }
-    private static void logout(){
-        System.out.println("made it to logout function");
-        exit = true;
+    private void logout() throws ResponseException {
+        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+
+        ServerFacade.LogoutResponse logoutResponse = this.serverFacade.logout(keepAuthToken);
+
+        if (logoutResponse.message() == null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+            state = client.State.SIGNEDOUT;
+        } else {
+            out.println("Logout failed");
+            exit = true;
+        }
     }
-    private static void login() {
-        System.out.println("made it to login function");
-        exit = true;
+    private void login() throws ResponseException {
+        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        out.println("please enter a username");
+        username = scanner.nextLine();
+        out.println("please enter a password");
+        String password = scanner.nextLine();
+
+        ServerFacade.RegisterResponse authToken = this.serverFacade.login(username, password, null);
+        keepAuthToken = authToken.authToken();
+        if (keepAuthToken != null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+            state = client.State.SIGNEDIN;
+        } else {
+            out.println("Login failed");
+            exit = true;
+        }
+    }
+    private void listGames() throws ResponseException {
+        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+
+        ServerFacade.ListGamesResponse listGamesResponse = this.serverFacade.listGamesServer(keepAuthToken);
+        out.println(listGamesResponse.games());
+//        if (keepAuthToken != null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+//            state = client.State.SIGNEDIN;
+//        } else {
+//            out.println("listGames failed");
+//            exit = true;
+//        }
     }
 }
