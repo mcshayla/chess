@@ -36,18 +36,18 @@ public class ServerFacade {
 //    public record JoinData(String playerColor,  Integer gameID){
 //    }
 
-    private final String serverURL;
+    private final Integer serverURL;
 
-    public ServerFacade(String url) {
+    public ServerFacade(Integer url) {
         serverURL = url;
     }
 
 
-    public UserData register(String username, String password, String email) throws ResponseException {
+    public RegisterResponse register(String username, String password, String email) throws ResponseException {
         Object user = new UserData(username, password, email);
         var path = "/user";
         System.out.println("before make request");
-        UserData data = this.makeRequest("POST", path, user,null, null,  UserData.class);
+        RegisterResponse data = this.makeRequest("POST", path, user,null, null,  RegisterResponse.class);
         System.out.println(data);
         return data;////figure out what to return
     }
@@ -97,8 +97,9 @@ public class ServerFacade {
     private <T> T makeRequest(String method, String path, Object request, String headerKey, String headerValue, Class<T> responseClass) throws HttpResponseException, ResponseException {
         try {
 
-            URL url = (new URI("http://localhost:8080"+ path)).toURL();
+            URL url = (new URI( "http://localhost:" + serverURL+ path)).toURL();
 //            "http://localhost:8080"
+//            "http://localhost:" + serverURL
 //            serverURL
             System.out.println(url);
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
