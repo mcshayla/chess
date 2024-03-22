@@ -64,10 +64,10 @@ public class clientController {
                 listGames();
                 break;
             case "3":
-                joinGame();
+                joinGame(true);
                 break;
             case "4":
-                observeGame();
+                joinGame(false);
                 break;
             case "5":
                 logout();
@@ -143,14 +143,15 @@ public class clientController {
 
     }
 
-    private void joinGame() throws ResponseException {
+    private void joinGame(boolean joinTrue) throws ResponseException {
         var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-        out.println("please WHITE or BLACK");
-        String playerColor = scanner.nextLine();
-//        while (playerColor != "WHITE" && playerColor != "BLACK") {
-//            out.println("please WHITE or BLACK");
-//            playerColor = scanner.nextLine();
-//        }
+        String playerColor = null;
+        if (joinTrue) {
+            out.println("please WHITE or BLACK");
+            playerColor = scanner.nextLine();
+        } else {
+            playerColor = null;
+        }
         out.println("enter a game number for which game you want to join. you can list games to see the numbers:)");
         String gameNumString = scanner.nextLine();
         int gameNum = Integer.parseInt(gameNumString);
@@ -172,10 +173,30 @@ public class clientController {
             exit = true;
         }
     }
-    private static void observeGame(){
-        System.out.println("made it to observeGame function");
-        exit = true;
-    }
+//    private void observeGame(){
+//        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+//        String playerColor = null;
+//        out.println("enter a game number for which game you want to join. you can list games to see the numbers:)");
+//        String gameNumString = scanner.nextLine();
+//        int gameNum = Integer.parseInt(gameNumString);
+//        int counter = 1;
+//        Integer gameID = null;
+//        listGames();
+//        for(GameData game: listToJoinFrom) {
+//            if (counter == gameNum) {
+//                gameID = game.gameID();
+//            }
+//        }
+//        JoinData join = new JoinData(playerColor, gameID);
+//        ServerFacade.JoinResponse joined = this.serverFacade.joinGameServer(keepAuthToken, join);
+//
+//        if (joined.message() == null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+//            chessBoardImg.main(null);
+//        } else {
+//            out.println("Register failed");
+//            exit = true;
+//        }
+//    }
     private void logout() throws ResponseException {
         var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
