@@ -2,6 +2,7 @@ package ui;
 
 import com.google.gson.Gson;
 import model.GameData;
+import model.JoinData;
 import model.UserData;
 
 import org.eclipse.jetty.client.HttpResponseException;
@@ -30,6 +31,10 @@ public class ServerFacade {
     }
     public record GameResponse(Integer gameID, String message) {
     }
+    public record JoinResponse(String message) {
+    }
+//    public record JoinData(String playerColor,  Integer gameID){
+//    }
 
     private final String serverURL;
 
@@ -78,6 +83,14 @@ public class ServerFacade {
         GameResponse createGameResponse = this.makeRequest("POST", path, gameName, "Authorization", authToken, GameResponse.class);
 
         return createGameResponse;
+    }
+
+    public JoinResponse joinGameServer(String authToken, JoinData joinData) throws ResponseException {
+        var path = "/game";
+        System.out.println("before make request");
+        JoinResponse joinResponse = this.makeRequest("PUT", path, joinData, "Authorization", authToken, JoinResponse.class);
+
+        return joinResponse;
     }
 
 

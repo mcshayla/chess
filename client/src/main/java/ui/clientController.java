@@ -1,12 +1,11 @@
 package ui;
 
-import chess.ChessBoard;
 import chess.ChessGame;
 import model.GameData;
+import model.JoinData;
 import model.UserData;
 
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
@@ -25,6 +24,8 @@ public class clientController {
     private ServerFacade serverFacade;
 
     private String keepAuthToken = null;
+
+    private List<GameData> listToJoinFrom = null;
 
     public clientController() {
         this.serverFacade = new ServerFacade(null);
@@ -142,9 +143,34 @@ public class clientController {
 
     }
 
-    private static void joinGame(){
-        System.out.println("made it to joinGame function");
-        exit = true;
+    private void joinGame() throws ResponseException {
+        var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+        out.println("please WHITE or BLACK");
+        String playerColor = scanner.nextLine();
+//        while (playerColor != "WHITE" && playerColor != "BLACK") {
+//            out.println("please WHITE or BLACK");
+//            playerColor = scanner.nextLine();
+//        }
+        out.println("enter a game number for which game you want to join. you can list games to see the numbers:)");
+        String gameNumString = scanner.nextLine();
+        int gameNum = Integer.parseInt(gameNumString);
+        int counter = 1;
+        Integer gameID = null;
+        listGames();
+        for(GameData game: listToJoinFrom) {
+            if (counter == gameNum) {
+                gameID = game.gameID();
+            }
+        }
+        JoinData join = new JoinData(playerColor, gameID);
+        ServerFacade.JoinResponse joined = this.serverFacade.joinGameServer(keepAuthToken, join);
+
+        if (joined.message() == null) { ///depends on what I am returning. I need to figure out how to see the reponse when it returns....
+            chessBoardImg.main(null);
+        } else {
+            out.println("Register failed");
+            exit = true;
+        }
     }
     private static void observeGame(){
         System.out.println("made it to observeGame function");
@@ -183,6 +209,7 @@ public class clientController {
 
         ServerFacade.ListGamesResponse listGamesResponse = this.serverFacade.listGamesServer(keepAuthToken);
         int counter = 1;
+        listToJoinFrom = listGamesResponse.games();
         for (GameData game : listGamesResponse.games()) {
             out.println(String.format("%d: gamename: %s, whiteUser: %s, blackUser: %s", counter, game.gameName(), game.whiteUsername(), game.blackUsername()));
             counter++;
